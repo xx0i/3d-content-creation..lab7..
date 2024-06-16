@@ -1,0 +1,2 @@
+# Never commit/push the solution folder. In CMake solutions are not portable and meant to be disposable anyway.
+Solution
