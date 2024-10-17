@@ -63,7 +63,7 @@ class Renderer
 
 	struct shaderVars
 	{
-		GW::MATH::GMATRIXF worldMatrix, viewMatrix, perspectiveMatrix;
+		GW::MATH::GMATRIXF viewMatrix, perspectiveMatrix;
 		GW::MATH::GVECTORF lightColour;
 		GW::MATH::GVECTORF lightDir, camPos;
 	};
@@ -92,6 +92,12 @@ class Renderer
 	VkDescriptorSet textureDescriptorSets;
 	VkSampler textureSampler{};
 
+	struct storageData
+	{
+		GW::MATH::GMATRIXF worldMatrix;
+	};
+	storageData world = {};
+
 public:
 
 	Renderer(GW::SYSTEM::GWindow _win, GW::GRAPHICS::GVulkanSurface _vlk)
@@ -105,7 +111,7 @@ public:
 		interfaceProxy.Create();
 
 		initializeWorldMatrix();
-		shaderVarsUniformBuffer.worldMatrix = worldMatrix;
+		world.worldMatrix = worldMatrix;
 		initializeViewMatrix();
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
 		initializePerspectiveMatrix();
@@ -407,7 +413,7 @@ private:
 
 	void initializeStorageBuffer()
 	{
-		unsigned int bufferSize = geometry.size();  //size of the storage data
+		unsigned int bufferSize = sizeof(storageData);  //size of the storage data
 
 		//gets the number of active frames
 		uint32_t imageCount;
@@ -421,7 +427,7 @@ private:
 		{
 			GvkHelper::create_buffer(physicalDevice, device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &storageBufferHandle[i], &storageBufferData[i]);
-			GvkHelper::write_to_buffer(device, storageBufferData[i], geometry.data(), bufferSize);
+			GvkHelper::write_to_buffer(device, storageBufferData[i], &world, bufferSize);
 		}
 	}
 
@@ -498,7 +504,7 @@ private:
 			VkDescriptorBufferInfo storageDescriptorBuffer = {};
 			storageDescriptorBuffer.buffer = storageBufferHandle[i];
 			storageDescriptorBuffer.offset = 0;
-			storageDescriptorBuffer.range = geometry.size();
+			storageDescriptorBuffer.range = sizeof(storageData);
 
 			VkWriteDescriptorSet writeUniformDescriptor = {};
 			writeUniformDescriptor.descriptorCount = 1;
@@ -527,7 +533,7 @@ private:
 
 			std::array<VkWriteDescriptorSet, 2> writeDescriptors = { writeUniformDescriptor, writeStorageDescriptor };
 
-			vkUpdateDescriptorSets(device,	1, &writeUniformDescriptor, 0, nullptr);
+			vkUpdateDescriptorSets(device,	writeDescriptors.size(), writeDescriptors.data(), 0, nullptr);
 		}
 		CreateSampler(vlk, textureSampler);
 		std::vector<VkDescriptorImageInfo> infos = {};

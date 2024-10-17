@@ -27,23 +27,27 @@ struct OUTPUT2
 
 cbuffer other_data
 {
-    matrix worldMatrix, viewMatrix, perspectiveMatrix;
+    matrix viewMatrix, perspectiveMatrix;
     vector lightColour;
     vector lightDir, camPos;
 };
 
+struct storageData
+{
+    matrix worldMatrix;
+};
 
-OUTPUT2 main(shaderVars input : POSITION) : SV_POSITION 
+OUTPUT2 main(shaderVars input : POSITION, storageData world) : SV_POSITION 
 {    
     //matrix result = mul(worldMatrix, viewMatrix);
     //result = mul(result, perspectiveMatrix);
     //float4 pos = mul(float4(input.pos, 1), result);
     
-    float4 worldPos = mul(float4(input.pos, 1), worldMatrix);
+    float4 worldPos = mul(float4(input.pos, 1), world.worldMatrix);
     float4 viewPos = mul(worldPos, viewMatrix);
     float4 perspectivePos = mul(viewPos, perspectiveMatrix);
     
-    float3 worldNorm = normalize(mul(input.norm, (float3x3) worldMatrix));
+    float3 worldNorm = normalize(mul(input.norm, (float3x3) world.worldMatrix));
     
     OUTPUT2 output;
     output.posH = perspectivePos;
