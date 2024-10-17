@@ -527,7 +527,7 @@ private:
 
 			std::array<VkWriteDescriptorSet, 2> writeDescriptors = { writeUniformDescriptor, writeStorageDescriptor };
 
-			vkUpdateDescriptorSets(device, 2, writeDescriptors.data(), 0, nullptr);
+			vkUpdateDescriptorSets(device,	1, &writeUniformDescriptor, 0, nullptr);
 		}
 		CreateSampler(vlk, textureSampler);
 		std::vector<VkDescriptorImageInfo> infos = {};

@@ -1,6 +1,6 @@
 #pragma pack_matrix( row_major )  
 // an ultra simple hlsl vertex shader
-struct shaderVars //part b4
+struct shaderVars
 {
     float3 pos : POSITION;
     float3 norm : NORMAL;
