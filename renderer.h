@@ -104,7 +104,7 @@ public:
 		startTime = std::chrono::high_resolution_clock::now();
 		interfaceProxy.Create();
 
-		//initializeWorldMatrix();
+		initializeWorldMatrix();
 		shaderVarsUniformBuffer.worldMatrix = worldMatrix;
 		initializeViewMatrix();
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
@@ -148,8 +148,8 @@ public:
 
 	void initializeWorldMatrix()
 	{
-		GW::MATH::GVECTORF negative1z = { 0.0f, 0.0f, -1.0f, 0.0f };
-		interfaceProxy.ScaleLocalF(worldMatrix, negative1z, worldMatrix);
+		GW::MATH::GVECTORF negativez = { 1.0f, 1.0f, -1.0f, 1.0f };
+		interfaceProxy.ScaleLocalF(worldMatrix, negativez, worldMatrix);
 	}
 
 	void loadingRudimentaryfromGltf(std::string filepath)
