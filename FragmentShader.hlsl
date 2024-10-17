@@ -27,8 +27,8 @@ float4 main(OUTPUT2 input) : SV_TARGET
     static float4 ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
     static float ns = 160.0f;
     
-    float4 textureColour = textures[2].Sample(samplers[0], input.texCoord.xy);
-    float textureRoughness = textures[1].Sample(samplers[0], input.texCoord.xy).r;
+    float4 textureColour = textures[3].Sample(samplers[0], input.texCoord.xy);
+    float textureRoughness = textures[2].Sample(samplers[0], input.texCoord.xy).r;
     
     float3 norm = normalize(input.normW);
     float3 lightDirection = normalize(lightDir);
