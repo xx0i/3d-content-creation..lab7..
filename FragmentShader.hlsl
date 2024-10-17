@@ -10,10 +10,17 @@ struct OUTPUT2
 
 cbuffer other_data
 {
-    matrix worldMatrix, viewMatrix, perspectiveMatrix;
+    matrix viewMatrix, perspectiveMatrix;
     vector lightColour;
     vector lightDir, camPos;
 };
+
+struct storageData
+{
+    matrix worldMatrix;
+};
+
+StructuredBuffer<storageData> drawInfo : register(b1, space0);
 
 Texture2D textures[] : register(t0, space1);
 SamplerState samplers[] : register(s0, space1);

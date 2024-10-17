@@ -37,17 +37,19 @@ struct storageData
     matrix worldMatrix;
 };
 
-OUTPUT2 main(shaderVars input : POSITION, storageData world) : SV_POSITION 
+StructuredBuffer<storageData> drawInfo : register(b1, space0);
+
+OUTPUT2 main(shaderVars input : POSITION, uint instanceID : SV_InstanceID) : SV_POSITION
 {    
     //matrix result = mul(worldMatrix, viewMatrix);
     //result = mul(result, perspectiveMatrix);
     //float4 pos = mul(float4(input.pos, 1), result);
     
-    float4 worldPos = mul(float4(input.pos, 1), world.worldMatrix);
+    float4 worldPos = mul(float4(input.pos, 1), drawInfo[instanceID].worldMatrix);
     float4 viewPos = mul(worldPos, viewMatrix);
     float4 perspectivePos = mul(viewPos, perspectiveMatrix);
     
-    float3 worldNorm = normalize(mul(input.norm, (float3x3) world.worldMatrix));
+    float3 worldNorm = normalize(mul(input.norm, (float3x3) drawInfo[instanceID].worldMatrix));
     
     OUTPUT2 output;
     output.posH = perspectivePos;
