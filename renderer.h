@@ -875,7 +875,7 @@ private:
 		retval.polygonMode = VK_POLYGON_MODE_FILL;
 		retval.lineWidth = 1.0f;
 		retval.cullMode = VK_CULL_MODE_BACK_BIT;
-		retval.frontFace = VK_FRONT_FACE_CLOCKWISE;
+		retval.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		retval.depthClampEnable = VK_FALSE;
 		retval.depthBiasEnable = VK_FALSE;
 		retval.depthBiasClamp = 0.0f;
