@@ -149,7 +149,7 @@ public:
 	void initializeWorldMatrix()
 	{
 		GW::MATH::GVECTORF negative1z = { 0.0f, 0.0f, -1.0f, 0.0f };
-		interfaceProxy.ScaleGlobalF(worldMatrix, negative1z, worldMatrix);
+		interfaceProxy.ScaleLocalF(worldMatrix, negative1z, worldMatrix);
 	}
 
 	void loadingRudimentaryfromGltf(std::string filepath)
