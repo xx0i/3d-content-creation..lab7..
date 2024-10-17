@@ -132,7 +132,7 @@ public:
 		uint32_t currentImage;
 		vlk.GetSwapchainCurrentImage(currentImage);
 
-		GW::MATH::GVECTORF cameraPosition = { -0.75f, 0.25f, 0.5f };
+		GW::MATH::GVECTORF cameraPosition = { 1.0f, 0.25f, 0.5f };
 		GW::MATH::GVECTORF targetPosition = { 0.0f, 0.02f, 0.0f };
 		GW::MATH::GVECTORF upVector = { 0.0f, 1.0f, 0.0f };
 		interfaceProxy.LookAtLHF(cameraPosition, targetPosition, upVector, viewMatrix);
