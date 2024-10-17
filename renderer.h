@@ -76,7 +76,7 @@ class Renderer
 
 	//lighting information
 	GW::MATH::GVECTORF lightColour = { 0.9f, 0.9f, 1.0f, 1.0f };
-	GW::MATH::GVECTORF lightDir = { -1.f, -1.0f, -1.5f };
+	GW::MATH::GVECTORF lightDir = { -1.f, -1.0f, -1.0f };
 
 	//texturing
 	struct textureInfo
