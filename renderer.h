@@ -53,6 +53,7 @@ class Renderer
 	std::vector<VkBuffer> storageBufferHandle;
 	std::vector<VkDeviceMemory> storageBufferData;
 
+	std::vector<uint8_t> geometry{};
 
 	//3d matrices
 	GW::MATH::GMatrix interfaceProxy;
@@ -91,13 +92,6 @@ class Renderer
 	VkDescriptorSet textureDescriptorSets;
 	VkSampler textureSampler{};
 
-	struct temp
-	{
-		GW::MATH::GMATRIXF worldMatrix;
-		std::vector<uint8_t> geometry{};
-	};
-	temp r = {};
-
 public:
 
 	Renderer(GW::SYSTEM::GWindow _win, GW::GRAPHICS::GVulkanSurface _vlk)
@@ -111,7 +105,7 @@ public:
 		interfaceProxy.Create();
 
 		initializeWorldMatrix();
-		r.worldMatrix = worldMatrix;
+		shaderVarsUniformBuffer.worldMatrix = worldMatrix;
 		initializeViewMatrix();
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
 		initializePerspectiveMatrix();
@@ -371,15 +365,15 @@ private:
 			totalSize += totalSize % 4;
 		}
 
-		r.geometry.resize(totalSize);
+		geometry.resize(totalSize);
 
-		std::memcpy(r.geometry.data(), posData, posDataSize);
-		std::memcpy(r.geometry.data() + posDataSize, normData, normDataSize);
-		std::memcpy(r.geometry.data() + posDataSize + normDataSize, texData, texDataSize);
-		std::memcpy(r.geometry.data() + posDataSize + normDataSize + texDataSize, tanData, tanDataSize);
-		std::memcpy(r.geometry.data() + posDataSize + normDataSize + texDataSize + tanDataSize, indexData, indexDataSize);
+		std::memcpy(geometry.data(), posData, posDataSize);
+		std::memcpy(geometry.data() + posDataSize, normData, normDataSize);
+		std::memcpy(geometry.data() + posDataSize + normDataSize, texData, texDataSize);
+		std::memcpy(geometry.data() + posDataSize + normDataSize + texDataSize, tanData, tanDataSize);
+		std::memcpy(geometry.data() + posDataSize + normDataSize + texDataSize + tanDataSize, indexData, indexDataSize);
 
-		CreateGeometryBuffer(&r.geometry[0], r.geometry.size());
+		CreateGeometryBuffer(&geometry[0], geometry.size());
 	}
 
 	void CreateGeometryBuffer(const void* data, unsigned int sizeInBytes)
@@ -413,7 +407,7 @@ private:
 
 	void initializeStorageBuffer()
 	{
-		unsigned int bufferSize = sizeof(r);  //size of the storage data
+		unsigned int bufferSize = geometry.size();  //size of the storage data
 
 		//gets the number of active frames
 		uint32_t imageCount;
@@ -427,7 +421,7 @@ private:
 		{
 			GvkHelper::create_buffer(physicalDevice, device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &storageBufferHandle[i], &storageBufferData[i]);
-			GvkHelper::write_to_buffer(device, storageBufferData[i], &r, bufferSize);
+			GvkHelper::write_to_buffer(device, storageBufferData[i], geometry.data(), bufferSize);
 		}
 	}
 
@@ -504,7 +498,7 @@ private:
 			VkDescriptorBufferInfo storageDescriptorBuffer = {};
 			storageDescriptorBuffer.buffer = storageBufferHandle[i];
 			storageDescriptorBuffer.offset = 0;
-			storageDescriptorBuffer.range = sizeof(r);
+			storageDescriptorBuffer.range = geometry.size();
 
 			VkWriteDescriptorSet writeUniformDescriptor = {};
 			writeUniformDescriptor.descriptorCount = 1;
