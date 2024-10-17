@@ -92,6 +92,13 @@ class Renderer
 	VkDescriptorSet textureDescriptorSets;
 	VkSampler textureSampler{};
 
+	struct worldMatrixData
+	{
+		GW::MATH::GMATRIXF worldMatrix;
+	};
+	worldMatrixData storageBuffer = {};
+
+
 public:
 
 	Renderer(GW::SYSTEM::GWindow _win, GW::GRAPHICS::GVulkanSurface _vlk)
@@ -143,6 +150,12 @@ public:
 		float aspectRatio = 0.0f;
 		vlk.GetAspectRatio(aspectRatio);
 		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 0.1, 100, perspectiveMatrix);
+	}
+
+	void initializeWorldMatrix()
+	{
+		GW::MATH::GVECTORF negative1z = { 0.0f, 0.0f, -1.0f, 0.0f };
+		interfaceProxy.ScaleGlobalF(worldMatrix, negative1z, worldMatrix);
 	}
 
 	void loadingRudimentaryfromGltf(std::string filepath)
