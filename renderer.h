@@ -53,8 +53,6 @@ class Renderer
 	std::vector<VkBuffer> storageBufferHandle;
 	std::vector<VkDeviceMemory> storageBufferData;
 
-	std::vector<uint8_t> geometry{};
-
 	//3d matrices
 	GW::MATH::GMatrix interfaceProxy;
 	GW::MATH::GMATRIXF worldMatrix = GW::MATH::GIdentityMatrixF;
@@ -92,11 +90,12 @@ class Renderer
 	VkDescriptorSet textureDescriptorSets;
 	VkSampler textureSampler{};
 
-	struct worldMatrixData
+	struct bufferData
 	{
 		GW::MATH::GMATRIXF worldMatrix;
+		std::vector<uint8_t> geometry{};
 	};
-	worldMatrixData storageBuffer = {};
+	bufferData storageBuffer = {};
 
 
 public:
@@ -372,15 +371,15 @@ private:
 			totalSize += totalSize % 4;
 		}
 
-		geometry.resize(totalSize);
+		storageBuffer.geometry.resize(totalSize);
 
-		std::memcpy(geometry.data(), posData, posDataSize);
-		std::memcpy(geometry.data() + posDataSize, normData, normDataSize);
-		std::memcpy(geometry.data() + posDataSize + normDataSize, texData, texDataSize);
-		std::memcpy(geometry.data() + posDataSize + normDataSize + texDataSize, tanData, tanDataSize);
-		std::memcpy(geometry.data() + posDataSize + normDataSize + texDataSize + tanDataSize, indexData, indexDataSize);
+		std::memcpy(storageBuffer.geometry.data(), posData, posDataSize);
+		std::memcpy(storageBuffer.geometry.data() + posDataSize, normData, normDataSize);
+		std::memcpy(storageBuffer.geometry.data() + posDataSize + normDataSize, texData, texDataSize);
+		std::memcpy(storageBuffer.geometry.data() + posDataSize + normDataSize + texDataSize, tanData, tanDataSize);
+		std::memcpy(storageBuffer.geometry.data() + posDataSize + normDataSize + texDataSize + tanDataSize, indexData, indexDataSize);
 
-		CreateGeometryBuffer(&geometry[0], geometry.size());
+		CreateGeometryBuffer(&storageBuffer.geometry[0], storageBuffer.geometry.size());
 	}
 
 	void CreateGeometryBuffer(const void* data, unsigned int sizeInBytes)
@@ -414,7 +413,7 @@ private:
 
 	void initializeStorageBuffer()
 	{
-		unsigned int bufferSize = sizeof(worldMatrixData);  //size of the storage data
+		unsigned int bufferSize = sizeof(storageBuffer);  //size of the storage data
 
 		//gets the number of active frames
 		uint32_t imageCount;
@@ -505,7 +504,7 @@ private:
 			VkDescriptorBufferInfo storageDescriptorBuffer = {};
 			storageDescriptorBuffer.buffer = storageBufferHandle[i];
 			storageDescriptorBuffer.offset = 0;
-			storageDescriptorBuffer.range = sizeof(worldMatrix);
+			storageDescriptorBuffer.range = sizeof(storageBuffer);
 
 			VkWriteDescriptorSet writeUniformDescriptor = {};
 			writeUniformDescriptor.descriptorCount = 1;
