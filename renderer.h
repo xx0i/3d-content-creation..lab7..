@@ -104,7 +104,7 @@ public:
 		startTime = std::chrono::high_resolution_clock::now();
 		interfaceProxy.Create();
 
-		initializeWorldMatrix();
+		//initializeWorldMatrix();
 		shaderVarsUniformBuffer.worldMatrix = worldMatrix;
 		initializeViewMatrix();
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
