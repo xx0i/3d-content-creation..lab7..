@@ -111,7 +111,8 @@ public:
 		startTime = std::chrono::high_resolution_clock::now();
 		interfaceProxy.Create();
 
-		shaderVarsUniformBuffer.worldMatrix = worldMatrix;
+		initializeWorldMatrix();
+		storageBuffer.worldMatrix = worldMatrix;
 		initializeViewMatrix();
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
 		initializePerspectiveMatrix();
@@ -413,7 +414,7 @@ private:
 
 	void initializeStorageBuffer()
 	{
-		unsigned int bufferSize = geometry.size();  //size of the storage data
+		unsigned int bufferSize = sizeof(worldMatrixData);  //size of the storage data
 
 		//gets the number of active frames
 		uint32_t imageCount;
@@ -427,7 +428,7 @@ private:
 		{
 			GvkHelper::create_buffer(physicalDevice, device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &storageBufferHandle[i], &storageBufferData[i]);
-			GvkHelper::write_to_buffer(device, storageBufferData[i], geometry.data(), bufferSize);
+			GvkHelper::write_to_buffer(device, storageBufferData[i], &storageBuffer, bufferSize);
 		}
 	}
 
@@ -504,7 +505,7 @@ private:
 			VkDescriptorBufferInfo storageDescriptorBuffer = {};
 			storageDescriptorBuffer.buffer = storageBufferHandle[i];
 			storageDescriptorBuffer.offset = 0;
-			storageDescriptorBuffer.range = geometry.size();
+			storageDescriptorBuffer.range = sizeof(worldMatrix);
 
 			VkWriteDescriptorSet writeUniformDescriptor = {};
 			writeUniformDescriptor.descriptorCount = 1;
