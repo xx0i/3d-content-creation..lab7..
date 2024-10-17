@@ -75,7 +75,7 @@ class Renderer
 	std::chrono::high_resolution_clock::time_point startTime;
 
 	//lighting information
-	GW::MATH::GVECTORF lightColour = { 0.9f, 0.9f, 1.0f, 1.0f };
+	GW::MATH::GVECTORF lightColour = { 1.0f, 0.9f, 1.0f, 1.0f };
 	GW::MATH::GVECTORF lightDir = { -1.0f, -1.0f, -2.0f };
 
 	//texturing
