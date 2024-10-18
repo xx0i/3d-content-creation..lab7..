@@ -149,7 +149,7 @@ public:
 	{
 		float aspectRatio = 0.0f;
 		vlk.GetAspectRatio(aspectRatio);
-		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 0.00001f, 10000.0f, perspectiveMatrix);
+		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 10000.0f, 0.00001f, perspectiveMatrix);
 	}
 
 	void initializeWorldMatrix()
