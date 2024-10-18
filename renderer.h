@@ -847,8 +847,8 @@ private:
 		retval.y = 0;
 		retval.width = static_cast<float>(windowWidth);
 		retval.height = static_cast<float>(windowHeight);
-		retval.minDepth = 0;
-		retval.maxDepth = 1;
+		retval.minDepth = 1;
+		retval.maxDepth = 0;
 		return retval;
 	}
 
@@ -1093,7 +1093,7 @@ private:
 	void SetViewport(const VkCommandBuffer& commandBuffer)
 	{
 		VkViewport viewport = CreateViewportFromWindowDimensions();
-		vkCmdSetViewport(commandBuffer, 1, 0, &viewport);
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 	}
 
 	void SetScissor(const VkCommandBuffer& commandBuffer)
