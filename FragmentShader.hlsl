@@ -30,16 +30,17 @@ float4 main(OUTPUT2 input) : SV_TARGET
     //temp hard coded data
     //static float4 diffuse = { 1.0f, 1.0f, 1.0f, 0.0f };
     static float4 specular = { 1.0f, 1.0f, 1.0f, 1.0f };
-    static float4 emissive = { 0.0f, 0.0f, 0.0f, 1.0f };
+    //static float4 emissive = { 0.0f, 0.0f, 0.0f, 1.0f };
     static float4 ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
     static float ns = 160.0f;
     
     float4 textureColour = textures[3].Sample(samplers[0], input.texCoord.xy);
     float textureRoughness = textures[2].Sample(samplers[0], input.texCoord.xy).r;
     float3 normalMap = textures[1].Sample(samplers[0], input.texCoord.xy).xyz;
-   // normalMap.g = 1.0f - normalMap.g;
+    normalMap.g = 1.0f - normalMap.g;
     normalMap *= 2.0f;
     normalMap -= 1.0f;
+    float4 emissive = textures[0].Sample(samplers[0], input.texCoord.xy);
     
     float3 norm = normalize(input.normW);
     
@@ -68,6 +69,7 @@ float4 main(OUTPUT2 input) : SV_TARGET
     float intensity = pow(saturate(dot(newNormWorld, halfVect)), ns);
     float3 reflected = lightColour.xyz * (float3) specular * (intensity * textureRoughness);
     finalColour += float4(reflected, 1.0f);
-
+    finalColour += emissive; //adding emissive
+    
     return finalColour;
 }
