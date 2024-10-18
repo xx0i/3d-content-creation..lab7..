@@ -73,6 +73,7 @@ class Renderer
 	GW::INPUT::GInput input;
 	GW::INPUT::GController controller;
 	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point startTimeForRotation;
 
 	//lighting information
 	GW::MATH::GVECTORF lightColour = { 0.9f, 0.9f, 1.0f, 1.0f };
@@ -108,6 +109,7 @@ public:
 		GetHandlesFromSurface();
 
 		startTime = std::chrono::high_resolution_clock::now();
+		startTimeForRotation = std::chrono::high_resolution_clock::now();
 		interfaceProxy.Create();
 
 		initializeWorldMatrix();
@@ -1063,6 +1065,17 @@ public:
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
 
 		shaderVarsUniformBuffer.camPos = viewCopy.row4;
+
+		//light direction rotation
+		GW::MATH::GMATRIXF identityMatrix = GW::MATH::GIdentityMatrixF;
+		GW::MATH::GMATRIXF yRotationMatrix {};
+		std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+		float elapsedTime2 = std::chrono::duration<float>(currentTime - startTimeForRotation).count();
+		float rotationSpeed = 0.75f; // Rotation speed in radians per second
+		float radians = elapsedTime2 * rotationSpeed;
+		interfaceProxy.RotateYLocalF(identityMatrix, radians, yRotationMatrix);
+		interfaceProxy.VectorXMatrixF(yRotationMatrix, lightDir, lightDir);
+		shaderVarsUniformBuffer.lightDir = lightDir;
 
 		GvkHelper::write_to_buffer(device, uniformBufferData[currentImage], &shaderVarsUniformBuffer, sizeof(shaderVars));
 		startTime = std::chrono::high_resolution_clock::now();
