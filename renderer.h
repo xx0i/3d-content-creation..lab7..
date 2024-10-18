@@ -1071,7 +1071,7 @@ public:
 		GW::MATH::GMATRIXF yRotationMatrix {};
 		std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
 		float elapsedTime2 = std::chrono::duration<float>(currentTime - startTimeForRotation).count();
-		float rotationSpeed = 0.00005f; // Rotation speed in radians per second
+		float rotationSpeed = 0.0005f; // Rotation speed in radians per second
 		float radians = elapsedTime2 * rotationSpeed;
 		interfaceProxy.RotateYLocalF(identityMatrix, radians, yRotationMatrix);
 		interfaceProxy.VectorXMatrixF(yRotationMatrix, lightDir, lightDir);
