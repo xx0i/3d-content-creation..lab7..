@@ -37,7 +37,7 @@ float4 main(OUTPUT2 input) : SV_TARGET
     float4 textureColour = textures[3].Sample(samplers[0], input.texCoord.xy);
     float textureRoughness = textures[2].Sample(samplers[0], input.texCoord.xy).r;
     float3 normalMap = textures[1].Sample(samplers[0], input.texCoord.xy).xyz;
-    normalMap.g = 1.0f - normalMap.g;
+   // normalMap.g = 1.0f - normalMap.g;
     normalMap *= 2.0f;
     normalMap -= 1.0f;
     
