@@ -149,7 +149,7 @@ public:
 	{
 		float aspectRatio = 0.0f;
 		vlk.GetAspectRatio(aspectRatio);
-		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 10000.0f, 0.00001f, perspectiveMatrix);
+		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 0.00001f, 10000.0f, perspectiveMatrix);
 	}
 
 	void initializeWorldMatrix()
@@ -909,10 +909,10 @@ private:
 		retval.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		retval.depthTestEnable = VK_TRUE;
 		retval.depthWriteEnable = VK_TRUE;
-		retval.depthCompareOp = VK_COMPARE_OP_GREATER;
+		retval.depthCompareOp = VK_COMPARE_OP_LESS;
 		retval.depthBoundsTestEnable = VK_FALSE;
-		retval.minDepthBounds = 1.0f;
-		retval.maxDepthBounds = 0.0f;
+		retval.minDepthBounds = 0.0f;
+		retval.maxDepthBounds = 1.0f;
 		retval.stencilTestEnable = VK_FALSE;
 		return retval;
 	}
@@ -1093,7 +1093,7 @@ private:
 	void SetViewport(const VkCommandBuffer& commandBuffer)
 	{
 		VkViewport viewport = CreateViewportFromWindowDimensions();
-		vkCmdSetViewport(commandBuffer, 1, 0, &viewport);
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 	}
 
 	void SetScissor(const VkCommandBuffer& commandBuffer)
