@@ -30,7 +30,7 @@ int main()
 	{
 		VkClearValue clrAndDepth[2];
 		clrAndDepth[0].color = { { 0.1f, 0.1f, 0.1f, 1} };
-		clrAndDepth[1].depthStencil = { 1.0f, 0u };
+		clrAndDepth[1].depthStencil = { 0.0f, 0u };
 		msgs.Create([&](const GW::GEvent& e) {
 			GW::SYSTEM::GWindow::Events q;
 			if (+e.Read(q) && q == GWindow::Events::RESIZE)
