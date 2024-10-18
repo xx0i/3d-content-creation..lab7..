@@ -36,16 +36,36 @@ float4 main(OUTPUT2 input) : SV_TARGET
     
     float4 textureColour = textures[3].Sample(samplers[0], input.texCoord.xy);
     float textureRoughness = textures[2].Sample(samplers[0], input.texCoord.xy).r;
+    float3 normalMap = textures[1].Sample(samplers[0], input.texCoord.xy).xyz;
+    normalMap.g = 1.0f - normalMap.g;
+    normalMap *= 2.0f;
+    normalMap -= 1.0f;
     
     float3 norm = normalize(input.normW);
-    float3 lightDirection = normalize(lightDir);
-    float diffuseIntensity = saturate(dot(norm, -lightDirection));
-    float4 finalColour = (diffuseIntensity + ambient) * textureColour * lightColour;
     
+    float tangentW = input.tangents.w;
+    float3 normTan = normalize(input.tangents.xyz);
+    float3 binormal = (cross(norm, normTan)) * tangentW;
+   
+    if (tangentW < 0.0f)
+    {
+        binormal = -binormal;
+    }
+    
+    binormal = normalize(binormal);
+    
+    float3x3 tbn = { normTan, binormal, norm };
+    
+    float3 newNormWorld = mul(normalMap, tbn);
+    
+    float3 lightDirection = normalize(lightDir);
+    float diffuseIntensity = saturate(dot(newNormWorld, -lightDirection));
+    float4 finalColour = (diffuseIntensity + ambient) * textureColour * lightColour;
+
     //half-vector method
     float3 viewDir = normalize(camPos.xyz - input.posW);
     float3 halfVect = normalize(-lightDirection.xyz + viewDir);
-    float intensity = pow(saturate(dot(norm, halfVect)), ns);
+    float intensity = pow(saturate(dot(newNormWorld, halfVect)), ns);
     float3 reflected = lightColour.xyz * (float3) specular * (intensity * textureRoughness);
     finalColour += float4(reflected, 1.0f);
 

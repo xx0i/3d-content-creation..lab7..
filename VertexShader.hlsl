@@ -51,11 +51,15 @@ OUTPUT2 main(shaderVars input : POSITION, uint instanceID : SV_InstanceID) : SV_
     
     float3 worldNorm = normalize(mul(input.norm, (float3x3) drawInfo[instanceID].worldMatrix));
     
+    float tangentW = input.tangents.w;
+    float4 worldTangent = mul(input.tangents, drawInfo[instanceID].worldMatrix);
+    worldTangent.w = tangentW;
+    
     OUTPUT2 output;
     output.posH = perspectivePos;
     output.posW = worldPos;
     output.normW = worldNorm;
     output.texCoord = input.texCoords;
-    output.tangents = input.tangents;
+    output.tangents = worldTangent;
 	return output;
 }
