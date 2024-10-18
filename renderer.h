@@ -909,10 +909,10 @@ private:
 		retval.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		retval.depthTestEnable = VK_TRUE;
 		retval.depthWriteEnable = VK_TRUE;
-		retval.depthCompareOp = VK_COMPARE_OP_LESS;
+		retval.depthCompareOp = VK_COMPARE_OP_GREATER;
 		retval.depthBoundsTestEnable = VK_FALSE;
-		retval.minDepthBounds = 0.0f;
-		retval.maxDepthBounds = 1.0f;
+		retval.minDepthBounds = 1.0f;
+		retval.maxDepthBounds = 0.0f;
 		retval.stencilTestEnable = VK_FALSE;
 		return retval;
 	}
@@ -1093,7 +1093,7 @@ private:
 	void SetViewport(const VkCommandBuffer& commandBuffer)
 	{
 		VkViewport viewport = CreateViewportFromWindowDimensions();
-		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+		vkCmdSetViewport(commandBuffer, 1, 0, &viewport);
 	}
 
 	void SetScissor(const VkCommandBuffer& commandBuffer)
