@@ -987,19 +987,6 @@ public:
 		uint32_t activeImage;
 		vlk.GetSwapchainCurrentImage(activeImage);
 
-		//light direction rotation
-		GW::MATH::GMATRIXF identityMatrix = GW::MATH::GIdentityMatrixF;
-		GW::MATH::GMATRIXF yRotationMatrix{};
-		std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
-		float elapsedTime2 = std::chrono::duration<float>(currentTime - startTimeForRotation).count();
-		float rotationSpeed = 0.5f; // Rotation speed in radians per second
-		float radians = elapsedTime2 * rotationSpeed;
-		interfaceProxy.RotateYLocalF(identityMatrix, radians, yRotationMatrix);
-		interfaceProxy.VectorXMatrixF(yRotationMatrix, lightDir, lightDir);
-		shaderVarsUniformBuffer.lightDir = lightDir;
-		startTimeForRotation = std::chrono::high_resolution_clock::now();
-
-
 		VkCommandBuffer commandBuffer = GetCurrentCommandBuffer();
 		SetUpPipeline(commandBuffer);
 
@@ -1078,6 +1065,16 @@ public:
 		shaderVarsUniformBuffer.viewMatrix = viewMatrix;
 
 		shaderVarsUniformBuffer.camPos = viewCopy.row4;
+
+		//light direction rotation
+		GW::MATH::GMATRIXF identityMatrix = GW::MATH::GIdentityMatrixF;
+		GW::MATH::GMATRIXF yRotationMatrix{};
+		std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+		float rotationSpeed = 0.75f; // Rotation speed in radians per second
+		float radians = elapsedTime * rotationSpeed;
+		interfaceProxy.RotateYLocalF(identityMatrix, radians, yRotationMatrix);
+		interfaceProxy.VectorXMatrixF(yRotationMatrix, lightDir, lightDir);
+		shaderVarsUniformBuffer.lightDir = lightDir;
 
 		GvkHelper::write_to_buffer(device, uniformBufferData[currentImage], &shaderVarsUniformBuffer, sizeof(shaderVars));
 		startTime = std::chrono::high_resolution_clock::now();
