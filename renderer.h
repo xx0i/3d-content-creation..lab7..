@@ -988,6 +988,25 @@ public:
 		VkCommandBuffer commandBuffer = GetCurrentCommandBuffer();
 		SetUpPipeline(commandBuffer);
 
+		VkClearValue clearValues[2] = {};
+
+		// Clear color buffer to a specified color (e.g., black with full opacity)
+		clearValues[0].color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+
+		// Clear depth buffer to a specified depth (usually 1.0 for farthest away)
+		clearValues[1].depthStencil = { 1.0f, 0 };
+
+		// Set up the render pass begin info
+		VkRenderPassBeginInfo renderPassInfo = {};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = renderPass; // Your existing render pass
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.clearValueCount = 2; // Number of clear values (1 for color, 1 for depth)
+		renderPassInfo.pClearValues = clearValues;
+
+		// Begin the render pass
+		vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
 		//vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[activeImage], 0, 0);
 		vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 1, 1, &textureDescriptorSets, 0, 0);
