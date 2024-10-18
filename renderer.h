@@ -149,7 +149,7 @@ public:
 	{
 		float aspectRatio = 0.0f;
 		vlk.GetAspectRatio(aspectRatio);
-		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 0.00001f, 10000.0f, perspectiveMatrix);
+		interfaceProxy.ProjectionDirectXLHF(G_DEGREE_TO_RADIAN_F(65.0f), aspectRatio, 10000.0f, 0.00001f, perspectiveMatrix);
 	}
 
 	void initializeWorldMatrix()
@@ -847,8 +847,8 @@ private:
 		retval.y = 0;
 		retval.width = static_cast<float>(windowWidth);
 		retval.height = static_cast<float>(windowHeight);
-		retval.minDepth = 1;
-		retval.maxDepth = 0;
+		retval.minDepth = 0;
+		retval.maxDepth = 1;
 		return retval;
 	}
 
@@ -1093,7 +1093,7 @@ private:
 	void SetViewport(const VkCommandBuffer& commandBuffer)
 	{
 		VkViewport viewport = CreateViewportFromWindowDimensions();
-		vkCmdSetViewport(commandBuffer, 1, 0, &viewport);
+		vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 	}
 
 	void SetScissor(const VkCommandBuffer& commandBuffer)
