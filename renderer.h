@@ -997,6 +997,8 @@ public:
 		interfaceProxy.RotateYLocalF(identityMatrix, radians, yRotationMatrix);
 		interfaceProxy.VectorXMatrixF(yRotationMatrix, lightDir, lightDir);
 		shaderVarsUniformBuffer.lightDir = lightDir;
+		startTimeForRotation = std::chrono::high_resolution_clock::now();
+
 
 		VkCommandBuffer commandBuffer = GetCurrentCommandBuffer();
 		SetUpPipeline(commandBuffer);
