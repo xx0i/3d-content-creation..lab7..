@@ -239,8 +239,8 @@ public:
 			textures[size].textureData, textures[size].image, textures[size].imageView);
 		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/diffuse.ktx2", textures[size + 1].textureHandle,
 			textures[size + 1].textureData, textures[size + 1].image, textures[size + 1].imageView);
-		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/specular.ktx2", textures[size + 2].textureHandle,
-			textures[size + 2].textureData, textures[size + 2].image, textures[size + 2].imageView);
+	//	UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/specular.ktx2", textures[size + 2].textureHandle,
+	//		textures[size + 2].textureData, textures[size + 2].image, textures[size + 2].imageView);
 	}
 
 	std::string getMimeTypeFromUri(const std::string& uri)
