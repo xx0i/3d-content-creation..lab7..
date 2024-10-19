@@ -217,7 +217,7 @@ public:
 	void loadImageFromGltf()
 	{
 		unsigned int size = model.images.size();
-		textures.resize(size + 3);
+		textures.resize(size + 1);
 
 		for (int i = 0; i < size; i++)
 		{
@@ -237,10 +237,6 @@ public:
 		}
 		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/lut_ggx.png", textures[size].textureHandle, 
 			textures[size].textureData, textures[size].image, textures[size].imageView);
-		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/diffuse.ktx2", textures[size + 1].textureHandle,
-			textures[size + 1].textureData, textures[size + 1].image, textures[size + 1].imageView);
-	//	UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/specular.ktx2", textures[size + 2].textureHandle,
-	//		textures[size + 2].textureData, textures[size + 2].image, textures[size + 2].imageView);
 	}
 
 	std::string getMimeTypeFromUri(const std::string& uri)
