@@ -3,6 +3,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../TinyGLTF/tiny_gltf.h"
 #include "TextureUtils.h"
+#define KHRONOS_STATIC 
+#include <ktxvulkan.h>
 
 #include "shaderc/shaderc.h" // needed for compiling shaders at runtime
 #ifdef _WIN32 // must use MT platform DLL libraries on windows
