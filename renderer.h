@@ -233,8 +233,8 @@ public:
 			temp.image.resize(temp.width * temp.height * temp.component);
 			UploadTextureToGPU(vlk, temp, textures[i].textureHandle, textures[i].textureData, textures[i].image, textures[i].imageView);
 		}
-		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/lut_ggx.png", textures[size+1].textureHandle, 
-			textures[size + 1].textureData, textures[size + 1].image, textures[size + 1].imageView);
+		UploadTextureToGPU(vlk, "C:/full sail/3d content creation/3dcc-lab-7-xx0i/PBR IBL ENV/lut_ggx.png", textures[size].textureHandle, 
+			textures[size].textureData, textures[size].image, textures[size].imageView);
 	}
 
 	std::string getMimeTypeFromUri(const std::string& uri)
