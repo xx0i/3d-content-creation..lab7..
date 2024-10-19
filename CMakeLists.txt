@@ -31,9 +31,16 @@ if (WIN32)
 	# shaderc_combined.lib in Vulkan requires this for debug & release (runtime shader compiling)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MD")
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/TinyGLTF)
+	# Add support for ktx texture loading
+	include_directories(${CMAKE_SOURCE_DIR}/ktx/include)
+	find_library(KTX_LIB_D NAMES ktx_x64_d PATHS ${CMAKE_SOURCE_DIR}/ktx/lib)
+	find_library(KTX_LIB_R NAMES ktx_x64_r PATHS ${CMAKE_SOURCE_DIR}/ktx/lib)
+
 	add_executable (${PROJECT_NAME} ${SOURCE_FILES} ${SHADER_FILES} ${TINYGLTF_FILES})
 	target_include_directories(${PROJECT_NAME} PUBLIC $ENV{VULKAN_SDK}/Include/)
 	target_link_directories(${PROJECT_NAME} PUBLIC $ENV{VULKAN_SDK}/Lib/)
+	# Link the libraries
+	target_link_libraries(${PROJECT_NAME} debug ${KTX_LIB_D} optimized ${KTX_LIB_R})
 endif(WIN32)
 
 if(UNIX AND NOT APPLE)
