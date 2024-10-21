@@ -53,27 +53,28 @@ float3 fresnelSchlick(float3 F0, float cosTheta)
 
 cbuffer SHADER_VARS : register(b0, space0)
 {
-    float4x4 worldMatrix;
-    float4x4 viewMatrix;
-    float4x4 projectionMatrix;
-    float4 sunDirection, sunColor, sunAmbient, camPos;
+    float4x4 worldMatrix; 
+    float4x4 viewMatrix;                                            //matrix viewMatrix, perspectiveMatrix;
+    float4x4 projectionMatrix;                                      //vector lightColour;
+    float4 sunDirection, sunColor, sunAmbient, camPos;              //vector lightDir, camPos;
 };
 
 struct V_OUT
 {
-    float4 pos : SV_POSITION;
-    float3 nrm : NORMAL;
-    float2 uv : TEXCOORD_0;
-    float4 tangent : TANGENT;
-    float3 posW : POSITION;
+    float4 pos : SV_POSITION;  //posH            float4 posH : SV_POSITION;
+    float3 nrm : NORMAL;       //normW           float3 posW : WORLD;
+    float2 uv : TEXCOORD_0;    //texCoord        float3 normW : NORMAL;
+    float4 tangent : TANGENT;  //tangents        float2 texCoord : TEXCOORD;
+    float3 posW : POSITION;    //posW            float4 tangents : TANGENT;
+    
 };
 
 // Identify which 2D texture is which
-static const int albedoMap = 0;
-static const int roughnessMetalOcclusionMap = 1;
-static const int normalMap = 2;
-static const int emissiveMap = 3;
-static const int brdfMap = 4;
+static const int albedoMap = 4;
+static const int roughnessMetalOcclusionMap = 2;
+static const int normalMap = 1;
+static const int emissiveMap = 0;
+static const int brdfMap = 3;
 // Identify which sampler is which
 static const int defaultSampler = 0;
 // Identify which texture cube is which
