@@ -626,7 +626,7 @@ private:
 
 	void CompilePixelShader(const shaderc_compiler_t& compiler, const shaderc_compile_options_t& options)
 	{
-		std::string fragmentShaderSource = ReadFileIntoString("../Materials/TextureUtilsKTX.h"); //("../FragmentShader.hlsl");
+		std::string fragmentShaderSource = ReadFileIntoString("../FragmentShader.hlsl"); //("../Materials/TextureUtilsKTX.h");
 
 		shaderc_compilation_result_t result;
 
