@@ -53,20 +53,22 @@ float3 fresnelSchlick(float3 F0, float cosTheta)
 
 cbuffer SHADER_VARS : register(b0, space0)
 {
-    float4x4 worldMatrix; 
-    float4x4 viewMatrix;                                            //matrix viewMatrix, perspectiveMatrix;
-    float4x4 projectionMatrix;                                      //vector lightColour;
-    float4 sunDirection, sunColor, sunAmbient, camPos;              //vector lightDir, camPos;
+    //float4x4 worldMatrix; 
+    //float4x4 viewMatrix;                                            //matrix viewMatrix, perspectiveMatrix;
+    //float4x4 projectionMatrix;                                      //vector lightColour;
+    //float4 sunDirection, sunColor, sunAmbient, camPos;              //vector lightDir, camPos;
+    matrix viewMatrix, projectionMatrix;
+    vector sunColor;
+    vector sunDirection, camPos;
 };
 
 struct V_OUT
 {
     float4 pos : SV_POSITION;  //posH            float4 posH : SV_POSITION;
-    float3 nrm : NORMAL;       //normW           float3 posW : WORLD;
-    float2 uv : TEXCOORD_0;    //texCoord        float3 normW : NORMAL;
-    float4 tangent : TANGENT;  //tangents        float2 texCoord : TEXCOORD;
-    float3 posW : POSITION;    //posW            float4 tangents : TANGENT;
-    
+    float3 posW : POSITION;    //posW            float3 posW : WORLD;
+    float3 nrm : NORMAL;       //normW           float3 normW : NORMAL;
+    float2 uv : TEXCOORD_0;    //texCoord        float2 texCoord : TEXCOORD;
+    float4 tangent : TANGENT;  //tangents        float4 tangents : TANGENT;
 };
 
 // Identify which 2D texture is which
