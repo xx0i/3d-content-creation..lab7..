@@ -26,7 +26,7 @@ float ndfGGX(float cosLh, float roughness)
     float alphaSq = alpha * alpha;
 
     float denom = (cosLh * cosLh) * (alphaSq - 1.0) + 1.0;
-    return (alphaSq / (PI * denom * denom));
+    return alphaSq / (PI * denom * denom);
 }
 
 // Single term for separable Schlick-GGX below.
@@ -54,12 +54,12 @@ float3 fresnelSchlick(float3 F0, float cosTheta)
 cbuffer SHADER_VARS : register(b0, space0)
 {
     //float4x4 worldMatrix; 
-    //float4x4 viewMatrix;                                            //matrix viewMatrix, perspectiveMatrix;
-    //float4x4 projectionMatrix;                                      //vector lightColour;
-    //float4 sunDirection, sunColor, sunAmbient, camPos;              //vector lightDir, camPos;
-    matrix viewMatrix, projectionMatrix;
-    vector sunColor;
-    vector sunDirection, camPos;
+    //float4x4 viewMatrix;                                           
+    //float4x4 projectionMatrix;                                     
+    //float4 sunDirection, sunColor, sunAmbient, camPos;             
+    float4x4 viewMatrix, projectionMatrix;                             //matrix viewMatrix, perspectiveMatrix;
+    float4 sunColor;                                                 //vector lightColour;
+    float4 sunDirection, camPos;                                     //vector lightDir, camPos;
 };
 
 struct V_OUT

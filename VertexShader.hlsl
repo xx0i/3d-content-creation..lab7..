@@ -27,9 +27,9 @@ struct OUTPUT2
 
 cbuffer other_data
 {
-    matrix viewMatrix, perspectiveMatrix;
-    vector lightColour;
-    vector lightDir, camPos;
+    float4x4 viewMatrix, perspectiveMatrix;
+    float4 lightColour;
+    float4 lightDir, camPos;
 };
 
 struct storageData
