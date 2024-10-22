@@ -131,8 +131,7 @@ public:
 		//loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-5-xx0i/Models/triangle_blender.gltf");
 		//loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-5-xx0i/Models/cat_blender.gltf");
 		//loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-6-xx0i/Models/fish_blender.gltf");
-		//loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-7-xx0i/Models/WaterBottle/bottle_blender.gltf");
-		loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-7-xx0i/Models/sponza/sponza_blender_modified.gltf");
+		loadingRudimentaryfromGltf("C:/full sail/3d content creation/3dcc-lab-7-xx0i/Models/WaterBottle/bottle_blender.gltf");
 		loadImageFromGltf();
 		createDescriptorLayout();
 		InitializeGraphics();
