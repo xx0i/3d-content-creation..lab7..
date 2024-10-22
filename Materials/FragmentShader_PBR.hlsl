@@ -71,12 +71,19 @@ struct V_OUT
     float4 tangent : TANGENT;  //tangents        float4 tangents : TANGENT;
 };
 
+struct storageData
+{
+    matrix worldMatrix;
+};
+
+StructuredBuffer<storageData> drawInfo : register(b1, space0);
+
 // Identify which 2D texture is which
-static const int albedoMap = 4;
+static const int albedoMap = 3;
 static const int roughnessMetalOcclusionMap = 2;
 static const int normalMap = 1;
 static const int emissiveMap = 0;
-static const int brdfMap = 3;
+static const int brdfMap = 4;
 // Identify which sampler is which
 static const int defaultSampler = 0;
 // Identify which texture cube is which
